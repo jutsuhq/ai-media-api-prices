@@ -62,4 +62,6 @@ Prices are checked every day. Providers with a machine-readable price list are r
 
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Use it anywhere, credit "Jutsu Studio, [jutsustudio.com](https://jutsustudio.com/video-api-pricing/)".
 
+More Higgsfield tools, SDKs and agent skills: [awesome-higgsfield](https://github.com/jutsuhq/awesome-higgsfield).
+
 Found a wrong or missing price? [Open an issue](https://github.com/jutsuhq/video-api-prices/issues).
