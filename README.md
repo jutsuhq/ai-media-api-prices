@@ -2,7 +2,7 @@
 
 **What one second of AI video costs at every API provider, in US dollars. Updated daily.**
 
-Seedance, Veo, Kling, Wan, Hailuo, Sora, Runway, Luma Ray, PixVerse, Vidu, LTX and more, priced at 30+ providers: the model makers' own APIs and resellers such as fal, Replicate, WaveSpeed, Runware and kie. Every price is converted to the same unit, so one table compares them all.
+Seedance, Veo, Kling, Wan, Hailuo, Sora, Runway, Luma Ray, PixVerse, Vidu, LTX and more, priced at 75+ providers: the model makers' own APIs (including the mainland-China platforms of Kling, MiniMax, PixVerse, Vidu, Volcengine and Alibaba), resellers such as fal, Replicate, WaveSpeed, Runware and kie, and the API relays built on new-api. Every price is converted to the same unit, so one table compares them all.
 
 Browse it as a table: **[jutsustudio.com/video-api-pricing](https://jutsustudio.com/video-api-pricing/)**
 
@@ -55,11 +55,13 @@ const { updated, rows } = await (await fetch(
 - **Per-video** prices are divided by the clip length they buy.
 - **Token** prices are converted at 16:9 and 24 fps for the stated resolution.
 - **Credits** use the provider's own credit pack rate.
-- **Yuan** use the day's exchange rate.
+- **Yuan** are converted at 7.1 CNY per US dollar.
+- **Relay quota** (new-api relays): a relay's "$1" of quota is often sold for ¥1, not for a dollar. Prices are converted at the top-up rate the relay publishes in `/api/status` (yuan per quota dollar ÷ 7.1), so they are what you actually pay.
+- **Relay channels**: an offer more than 70% below the model maker's own price is tagged `variant: "relay channel"` (usually pooled or reverse-engineered accounts). It stays in the data, but the site doesn't quote it as the cheapest price.
 
 Every source page is re-read every day:
 
-- **Exact feeds** (OpenRouter, Higgsfield, xAI) update their rows from the provider's own price data.
+- **Exact feeds** update rows from the provider's own price data: OpenRouter, Higgsfield, xAI, Runware, Atlas Cloud and CometAPI (their public pricing JSON), and every new-api relay (`/api/pricing`, where the price is recomputed from the model and group ratios).
 - **Every other page** is checked for the numbers it shows as prices. A row is confirmed when its price is still on the page, or when no price on the page changed. When exactly one price on a page changed, the rows listed at the old price are updated to the new one.
 - Anything else keeps its last confirmed date in `checked` and is flagged for a person to read.
 
