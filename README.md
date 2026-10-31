@@ -35,7 +35,7 @@ const { updated, rows } = await (await fetch(
 | Field | Meaning |
 | --- | --- |
 | `family`, `model`, `variant` | Model family (`Kling`), model (`Kling 2.1`) and variant, if any |
-| `provider` | Who sells it; `official` is `true` for the model maker's own API |
+| `provider` | Who sells it; `official` is `true` only for the model maker's own API (Runway reselling Veo is not official) |
 | `mode` | `generate`, `video input` (edit, extend, restyle) or `motion / avatar` |
 | `res`, `audio` | Output resolution and whether sound is generated |
 | `usdPerSec` | US dollars per second of output video |
@@ -45,6 +45,7 @@ const { updated, rows } = await (await fetch(
 | `promo`, `promoUntil` | Temporary discount and its end date, when known |
 | `source` | Page the price was read from |
 | `checked`, `verified` | Date the price was last confirmed, and whether it was read from the provider directly |
+| `changed`, `was` | Date the shown price last changed, and the price per second before that change |
 | `gone` | The provider no longer offers it |
 | `slug` | Model page id on jutsustudio.com |
 
@@ -56,7 +57,15 @@ const { updated, rows } = await (await fetch(
 - **Credits** use the provider's own credit pack rate.
 - **Yuan** use the day's exchange rate.
 
-Prices are checked every day. Providers with a machine-readable price list are read automatically. The rest keep the last price confirmed by hand, with its date in `checked`. The commit history is the price history.
+Every source page is re-read every day:
+
+- **Exact feeds** (OpenRouter, Higgsfield, xAI) update their rows from the provider's own price data.
+- **Every other page** is checked for the numbers it shows as prices. A row is confirmed when its price is still on the page, or when no price on the page changed. When exactly one price on a page changed, the rows listed at the old price are updated to the new one.
+- Anything else keeps its last confirmed date in `checked` and is flagged for a person to read.
+
+## Price changes
+
+[`changes.jsonl`](changes.jsonl) logs every price the daily run changed, one JSON object per line: `date`, `provider`, `model`, `mode`, `resolution`, `audio`, `usd_per_second_before`, `usd_per_second`, `source_url`, and `how` (`feed` or `page`). The commit history of `prices.json` holds everything before the log started on 2026-10-31.
 
 ## Related
 
